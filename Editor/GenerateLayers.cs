@@ -85,8 +85,7 @@ namespace SaintsConst.Editor
 // ReSharper disable once CheckNamespace
 namespace SaintsConst
 {{
-    [System.Flags]
-    public enum LayerConst
+    public static class LayerConst
     {{
 {0}
     }}
@@ -98,7 +97,7 @@ namespace SaintsConst
         /// {0} ({1})
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        {0} = 1 << {1},
+        public const int {0} = 1 << {1};
 ";
     }
 }

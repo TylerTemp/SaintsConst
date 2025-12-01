@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace SaintsConst.Editor
 {
-    public class GenerateRenderingLayers
+    public static class GenerateRenderingLayers
     {
 
         public static void OnLoadWatch()
@@ -81,8 +80,7 @@ namespace SaintsConst.Editor
 // ReSharper disable once CheckNamespace
 namespace SaintsConst
 {{
-    [System.Flags]
-    public enum RenderingLayerConst: uint
+    public static class RenderingLayerConst
     {{
 {0}
     }}
@@ -94,7 +92,7 @@ namespace SaintsConst
         /// {0} ({1})
         /// </summary>
         // ReSharper disable once InconsistentNaming
-        {0} = {1},
+        public const uint {0} = {1};
 ";
     }
 }

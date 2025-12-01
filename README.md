@@ -15,7 +15,7 @@ using SaintsConst;
 gameObject.tag = TagConst.Player;
 
 // use layer mask
-const int layerMask = (int)(LayerConst.Default | LayerConst.Water);
+const int layerMask = LayerConst.Default | LayerConst.Water;
 
 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 if (Physics.Raycast(ray, float.MaxValue, layerMask: layerMask))
@@ -29,7 +29,7 @@ GetComponent<Renderer>().sortingLayerID = SortingLayerConst.Id.New_Layer_1;
 GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID(SortingLayerConst.Name.New_Layer_1);
 
 // use rendering layer
-GetComponent<MeshRenderer>().renderingLayerMask = (uint)RenderingLayerConst.Light_Layer_1;
+GetComponent<MeshRenderer>().renderingLayerMask = RenderingLayerConst.Light_Layer_1;
 ```
 
 If you edit these value in inspector, this will not get update until next domain reload. Force to refresh it using: `Window/Saints/Refresh Saints Const`
