@@ -1,0 +1,13 @@
+{
+    "name": "today.comes.saintsconst.Generated",
+    "rootNamespace": "",
+    "references": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
