@@ -18,19 +18,23 @@ namespace SaintsConst.Editor
         {
             const string savePath = Entrance.GenerateFolder + "/LayerConst.cs";
 
-            StringBuilder fieldsBuilder = new StringBuilder();
+            StringBuilder nameFieldsBuilder = new StringBuilder();
+            StringBuilder indexFieldsBuilder = new StringBuilder();
+            StringBuilder maskFieldsBuilder = new StringBuilder();
 
             HashSet<string> conflictedSet = new HashSet<string>();
 
-            foreach ((string layerName, int layerValue, bool conflicted) in GetFineTags())
+            foreach (LayerInfo layerInfo in GetFineLayers())
             {
-                if (conflicted)
+                if (layerInfo.Conflicted)
                 {
-                    conflictedSet.Add(layerName);
+                    conflictedSet.Add(layerInfo.Name);
                 }
                 else
                 {
-                    fieldsBuilder.Append(string.Format(FieldTemplate, layerName, layerValue));
+                    nameFieldsBuilder.Append(string.Format(NameFieldTemplate, layerInfo.Key, layerInfo.Name));
+                    indexFieldsBuilder.Append(string.Format(IndexFieldTemplate, layerInfo.Key, layerInfo.Index));
+                    maskFieldsBuilder.Append(string.Format(MaskFieldTemplate, layerInfo.Key, layerInfo.Index));
                 }
             }
 
@@ -40,7 +44,7 @@ namespace SaintsConst.Editor
                 conflictLine = $"\n        // WARNING: conflict layer mask name found: {string.Join(", ", conflictedSet)}\n\n";
             }
 
-            string fileContent = string.Format(FileTemplate, $"{conflictLine}{fieldsBuilder}");
+            string fileContent = string.Format(FileTemplate, conflictLine, nameFieldsBuilder, indexFieldsBuilder, maskFieldsBuilder);
 
             string oldFileContent = "";
             if (File.Exists(savePath))
@@ -48,6 +52,7 @@ namespace SaintsConst.Editor
                 oldFileContent = File.ReadAllText(savePath);
             }
 
+            // ReSharper disable once InvertIf
             if (fileContent != oldFileContent)
             {
                 Debug.Log($"Update content in {savePath}");
@@ -55,7 +60,23 @@ namespace SaintsConst.Editor
             }
         }
 
-        private static IEnumerable<(string layerName, int layerMask, bool conflicted)> GetFineTags()
+        private readonly struct LayerInfo
+        {
+            public readonly string Key;
+            public readonly string Name;
+            public readonly int Index;
+            public readonly bool Conflicted;
+
+            public LayerInfo(string key, string name, int index, bool conflicted)
+            {
+                Key = key;
+                Name = name;
+                Index = index;
+                Conflicted = conflicted;
+            }
+        }
+
+        private static IEnumerable<LayerInfo> GetFineLayers()
         {
             // List<(string, string)> results = new List<(string, string)>();
             HashSet<string> existsName = new HashSet<string>();
@@ -66,15 +87,13 @@ namespace SaintsConst.Editor
                 if (layerName.Length != 0)
                 {
                     string key = Utils.ProperVarName(layerName);
-                    if(existsName.Add(key))
-                    {
-                        yield return (key, layer, false);
-                    }
-                    else
+                    bool conflicted = !existsName.Add(key);
+                    if(conflicted)
                     {
                         Debug.LogWarning($"Layer `{layerName}` has conflict programming name `{key}`, skip");
-                        yield return (key, layer, true);
                     }
+
+                    yield return new LayerInfo(key, layerName, layer, conflicted);
                 }
             }
 
@@ -85,19 +104,42 @@ namespace SaintsConst.Editor
 // ReSharper disable once CheckNamespace
 namespace SaintsConst
 {{
+    {0}
     public static class LayerConst
     {{
-{0}
+        public static class Name 
+        {{
+{1}
+        }}
+        public static class Index 
+        {{
+{2}
+        }}
+        public static class Mask 
+        {{
+{3}
+        }}
     }}
 }}
 ";
 
-        private const string FieldTemplate = @"
-        /// <summary>
-        /// {0} ({1})
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        public const int {0} = 1 << {1};
+        private const string NameFieldTemplate = @"
+            // ReSharper disable once InconsistentNaming
+            public const string {0} = ""{1}"";
+";
+        private const string IndexFieldTemplate = @"
+            /// <summary>
+            /// {0} ({1})
+            /// </summary>
+            // ReSharper disable once InconsistentNaming
+            public const int {0} = {1};
+";
+        private const string MaskFieldTemplate = @"
+            /// <summary>
+            /// {0} ({1})
+            /// </summary>
+            // ReSharper disable once InconsistentNaming
+            public const int {0} = 1 << {1};
 ";
     }
 }

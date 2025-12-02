@@ -14,13 +14,11 @@ using SaintsConst;
 // use tag
 gameObject.tag = TagConst.Player;
 
-// use layer mask
-const int layerMask = LayerConst.Default | LayerConst.Water;
+// use layer index
+gameObject.layer = LayerConst.Index.Default;
 
-Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-if (Physics.Raycast(ray, float.MaxValue, layerMask: layerMask))
-{
-}
+// use layer mask
+const int layerMask = LayerConst.Mask.Default | LayerConst.Mask.Water;
 
 // use sorting layer
 // id

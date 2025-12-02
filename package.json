@@ -1,6 +1,6 @@
 {
   "name": "today.comes.saintsconst",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "displayName": "SaintsConst",
   "description": "A Unity plugin for const string of tags, layers, etc.",
   "unity": "2022.2",
