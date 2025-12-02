@@ -97,6 +97,7 @@ namespace SaintsConst
         // ReSharper disable once InconsistentNaming
         public const uint {0} = {1};
 ";
-    }
 #endif
+
+    }
 }
