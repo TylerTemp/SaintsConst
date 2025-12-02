@@ -10,9 +10,12 @@ namespace SaintsConst.Editor
 
         public static void OnLoadWatch()
         {
+#if UNITY_6000_2_OR_NEWER
             CheckChangeAndWrite();
+#endif
         }
 
+#if UNITY_6000_2_OR_NEWER
         private static void CheckChangeAndWrite()
         {
             const string savePath = Entrance.GenerateFolder + "/RenderingLayerConst.cs";
@@ -95,4 +98,5 @@ namespace SaintsConst
         public const uint {0} = {1};
 ";
     }
+#endif
 }
