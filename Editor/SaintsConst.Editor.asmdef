@@ -1,6 +1,6 @@
 {
-    "name": "today.comes.saintsconst.Editor",
-    "rootNamespace": "",
+    "name": "SaintsConst.Editor",
+    "rootNamespace": "SaintsConst",
     "references": [],
     "includePlatforms": [
         "Editor"

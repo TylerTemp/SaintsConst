@@ -4,10 +4,6 @@ Generate const string for your Unity project of tags, layers, sortingLayers, ren
 
 ## Usage ##
 
-It will generate code under `Assets/SaintsConst.Generated`. Ensure you have `today.comes.saintsconst.Generated` referenced in your `asmdef`.
-
-example:
-
 ```csharp
 using SaintsConst;
 
@@ -27,12 +23,7 @@ GetComponent<Renderer>().sortingLayerID = SortingLayerConst.Id.New_Layer_1;
 GetComponent<Renderer>().sortingLayerID = SortingLayer.NameToID(SortingLayerConst.Name.New_Layer_1);
 
 // use rendering layer
-GetComponent<MeshRenderer>().renderingLayerMask = RenderingLayerConst.Light_Layer_1;
+GetComponent<MeshRenderer>().renderingLayerMask = RenderingLayerConst.Mask.Light_Layer_1;
 ```
 
-If you edit these value in inspector, this will not get update until next domain reload. Force to refresh it using: `Window/Saints/Refresh Saints Const`
-
-## Development ##
-
-1.  clone this project under `Assets`
-2.  `ln Editor/Editor\ Default\ Resources/SaintsConst/today.comes.saintsconst.Generated.asmdef.txt ../SaintsConst.Generated/today.comes.saintsconst.Generated.asmdef`
+After editing tags/layers, the script is only updated on next script recompile/editor restart. To force to refresh it, go: `Tools/Saints Const/Refresh Saints Const`
